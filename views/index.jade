@@ -1,0 +1,80 @@
+extends layout
+
+block content
+    .container-fluid
+        h1(class='text-center animated bounceIn') #{title}
+        .row    
+            div(class="span4 offset4")
+                button(type="button" class="btn btn-primary btn-lg addTopic" style="margin:15px auto;display:block;")    Add New Bookmark
+
+        //p Welcome to #{title}
+
+        each val, index in list
+            if index%4==0
+                .row
+
+            .col-md-3(class="animated fadeIn")  
+                .well(style='min-height:200px;')
+                    .clearfix
+                        h4(class='pull-left')= val.grouptitle
+                        button(class='btn btn-primary pull-right addChild',data-content_type="#{val.grouptitle}")
+                            span(class="glyphicon glyphicon-plus-sign")
+                    each vals,indexs in val.list        
+                        p(class="linkContainer",data-content_type="#{val.grouptitle} ",data-name="#{vals.sitename}", data-address="#{vals.siteurl}",data-id="#{vals._id}",data-parentid="#{val._id}")
+                            a(href='#{vals.siteurl}',target="_blank")
+                                span(class='glyphicon glyphicon-link') 
+                                span= " "+ vals.sitename
+                            span(class="icon BtnDelete glyphicon glyphicon-trash pull-right" style="color:red;" title="Delete")
+                            span(class="icon BtnEdit glyphicon glyphicon-pencil pull-right" style="color:blue;" title="Edit")
+    // Hidden Error msg
+    #alertMsg(class='status alert-success' role="alert"  style="display:none")
+        h4 
+    // Hidden form window
+    #form_container
+        div(class="modal fade ", id="form_modal",role="dialog")
+            div(class="modal-dialog")
+                div(class="modal-content")
+                    div(class="modal-header")
+                        button(type="button",class="close",data-dismiss="modal") &times;
+                        h4(class="modal-title") 
+                            span(id="user_action") Modal Header
+                    div(class="modal-body")
+                        form
+                            div(class="form-group row")
+                                label( for="content_type" ,class="col-sm-4 form-control-label") Type
+                                .col-sm-8
+                                    select(id='content_type',class='form-control' )
+                                        option(value="Dev Tool") Dev Tool
+                                        option(value="Data/SQL") Data/SQL
+                                        option(value="IT Tools") IT Tools
+                                        option(value="Files") Files
+                                        option(value="Branding & Templates") Branding & Templates
+                                        option(value="Hosting & Network") Hosting & Network
+                                        option(value="Creative Tools") Creative Tools
+                                        option(value="Sales Tools") Sales Tools
+                                        option(value="PM Tools") PM Tools
+                                        option(value="CM Tools") CM Tools
+                                        option(value="Reportings") Reportings
+                                        option(value="Custom") Custom
+                                        option(value="Pipe - test") Pipe - test
+                            //
+                                div(class="form-group row")
+                                    label( for="custom_type" ,class="col-sm-4 form-control-label") Name
+                                    .col-sm-8
+                                        input(class="form-control",type="text",id="custom_name",name="custom_name",placeholder="Name")
+                            div(class="form-group row")
+                                label( for="website_name" ,class="col-sm-4 form-control-label") Website Name
+                                .col-sm-8
+                                    input(class="form-control",type="text",id="website_name",name="website_name",placeholder="Website Name")
+                            div(class="form-group row")
+                                label( for="website_addr" ,class="col-sm-4 form-control-label") Website URI
+                                .col-sm-8
+                                    input(class="form-control",type="text",id="website_addr",name="website_addr",placeholder="Website URI")
+                            p(class="error",id="error_msg" )
+                    div(class="modal-footer")
+                        button(type="button",class="btn btn-default",data-dismiss="modal") Close
+                        button(type="button",class="btn btn-primary",id="btn_submit") Save changes
+
+
+
+
